@@ -15,6 +15,11 @@ Date.season = function(DATES) {
       ifelse(summer <= d & d < fall, "Summer", "Fall")))
 }
 
+Date.decade = function(dates) {
+  years = as.numeric(format(dates, "%Y"))
+  years %/% 10
+}
+
 ## Cleaning
 
 data = read.csv("data.csv")
@@ -28,6 +33,7 @@ data$Start.Month = as.factor(months(data$Start.Date))
 data$Start.Season = as.factor(Date.season(data$Start.Date))
 data$Disaster.Duration = as.numeric(data$End.Date - data$Start.Date)
 data$State.Region = as.factor(state.region[sapply(data$State, match, table=state.abb)])
+data$Start.Decade = as.numeric(Date.decade(data$Start.Date))
 
 ## Omitted Data
 
