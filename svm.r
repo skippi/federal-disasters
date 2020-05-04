@@ -15,18 +15,9 @@ Date.season = function(DATES) {
       ifelse(summer <= d & d < fall, "Summer", "Fall")))
 }
 
-omitted_cols = c(
-  "Declaration.Number",
-  "Declaration.Type",
-  "Disaster.Title",
-  "Close.Date"
-)
-
 ## Cleaning
 
 data = read.csv("data.csv")
-data = data[, !(names(data) %in% omitted_cols)]
-data = drop_na(data)
 data$Declaration.Date = as.Date(data$Declaration.Date, tryFormats="%m/%d/%Y")
 data$Start.Date = as.Date(data$Start.Date, tryFormats="%m/%d/%Y")
 data$End.Date = as.Date(data$End.Date, tryFormats="%m/%d/%Y")
@@ -35,7 +26,21 @@ data$End.Date = as.Date(data$End.Date, tryFormats="%m/%d/%Y")
 
 data$Start.Month = as.factor(months(data$Start.Date))
 data$Start.Season = as.factor(Date.season(data$Start.Date))
-data$Duration = as.numeric(data$End.Date - data$Start.Date)
+data$Disaster.Duration = as.numeric(data$End.Date - data$Start.Date)
+
+## Omitted Data
+
+data = data[,!(names(data) %in% c(
+  "Declaration.Date",
+  "Start.Date",
+  "End.Date",
+  "Declaration.Number",
+  "Declaration.Type",
+  "Disaster.Title",
+  "Close.Date"
+))]
+
+data = drop_na(data)
 
 ## Training
 
