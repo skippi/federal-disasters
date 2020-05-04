@@ -27,6 +27,7 @@ data$End.Date = as.Date(data$End.Date, tryFormats="%m/%d/%Y")
 data$Start.Month = as.factor(months(data$Start.Date))
 data$Start.Season = as.factor(Date.season(data$Start.Date))
 data$Disaster.Duration = as.numeric(data$End.Date - data$Start.Date)
+data$State.Region = as.factor(state.region[sapply(data$State, match, table=state.abb)])
 
 ## Omitted Data
 
