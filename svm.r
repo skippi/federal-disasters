@@ -33,7 +33,6 @@ data$State.Region = as.factor(state.region[sapply(data$State, match, table=state
 
 data = data[,!(names(data) %in% c(
   "Declaration.Date",
-  "Start.Date",
   "End.Date",
   "Declaration.Number",
   "Declaration.Type",
