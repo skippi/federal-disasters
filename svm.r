@@ -51,9 +51,17 @@ data = drop_na(data)
 ## Training
 
 set.seed(0)
-train <- sample(nrow(data), 0.2 * nrow(data))
+train <- sample(nrow(data), 0.8 * nrow(data))
 
 library(e1071)
-svm.fit = svm(Disaster.Type ~ ., data=data[train,], kernel="polynomial", gamma=1)
+svm.fit = svm(Disaster.Type ~ ., data=data[train,], kernel="polynomial", gamma=1, cost=1)
 svm.pred <- predict(svm.fit,newdata=data[-train,])
 mean(svm.pred != data[-train,]$Disaster.Type) # misclassification error rate
+
+## Tuning
+
+stune = sample(nrow(data), 1000)
+svm.tune = tune.svm(Disaster.Type ~ ., data=data[stune,],
+                    kernel="polynomial",
+                    cost=c(0.1, 0.5, 1, 5, 10),
+                    gamma=c(0.1, 0.5, 1, 5, 10))
